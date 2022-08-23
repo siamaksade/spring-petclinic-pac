@@ -1,10 +1,14 @@
+
 # Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-projects/spring-petclinic.png?branch=master)](https://travis-ci.org/spring-projects/spring-petclinic/)
+
 Deploy this sample application to Pivotal Web Services:
 
 ## Understanding the Spring Petclinic application with a few diagrams
+
 <a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
 
 ## Running petclinic locally
+
 Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
 
 ```
@@ -25,8 +29,8 @@ Or you can run it from Maven directly using the Spring Boot Maven plugin. If you
 ```
 
 ## In case you find a bug/suggested improvement for Spring Petclinic
-Our issue tracker is available here: https://github.com/spring-projects/spring-petclinic/issues
 
+Our issue tracker is available here: https://github.com/spring-projects/spring-petclinic/issues
 
 ## Database configuration
 
@@ -45,18 +49,19 @@ Further documentation is provided [here](https://github.com/spring-projects/spri
 ## Working with Petclinic in your IDE
 
 ### Prerequisites
+
 The following items should be installed in your system:
+
 * Java 8 or newer.
 * git command line tool (https://help.github.com/articles/set-up-git)
-* Your preferred IDE 
+* Your preferred IDE
   * Eclipse with the m2e plugin. Note: when m2e is available, there is an m2 icon in `Help -> About` dialog. If m2e is
   not there, just follow the install process here: https://www.eclipse.org/m2e/
   * [Spring Tools Suite](https://spring.io/tools) (STS)
   * IntelliJ IDEA
   * [VS Code](https://code.visualstudio.com)
-  
 
-### Steps:
+### Steps
 
 1) On the command line
 ```
@@ -84,8 +89,7 @@ version. Otherwise, run the application by right clicking on the `PetClinicAppli
 
 Visit [http://localhost:8080](http://localhost:8080) in your browser.
 
-
-## Looking for something in particular?
+## Looking for something in particular
 
 |Spring Boot Configuration | Class or Java property files  |
 |--------------------------|---|
@@ -101,7 +105,6 @@ GitHub org is the "canonical" implementation, currently based on Spring Boot and
 [spring-petclinic](https://github.com/spring-petclinic). If you have a special interest in a different technology stack
 that could be used to implement the Pet Clinic then please join the community there.
 
-
 ## Interaction with other open source projects
 
 One of the best parts about working on the Spring Petclinic application is that we have the opportunity to work in direct contact with many Open Source projects. We found some bugs/suggested improvements on various topics such as Spring, Spring Data, Bean Validation and even Eclipse! In many cases, they've been fixed/implemented in just a few days.
@@ -113,20 +116,19 @@ Here is a list of them:
 | Bean Validation / Hibernate Validator: simplify Maven dependencies and backward compatibility |[HV-790](https://hibernate.atlassian.net/browse/HV-790) and [HV-792](https://hibernate.atlassian.net/browse/HV-792) |
 | Spring Data: provide more flexibility when working with JPQL queries | [DATAJPA-292](https://jira.springsource.org/browse/DATAJPA-292) |
 
-
-# Contributing
+## Contributing
 
 The [issue tracker](https://github.com/spring-projects/spring-petclinic/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
 
 For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org>. If you have not previously done so, please fill out and submit the [Contributor License Agreement](https://cla.pivotal.io/sign/spring).
 
-# License
+## License
 
 The Spring PetClinic sample application is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
 
 [spring-petclinic]: https://github.com/spring-projects/spring-petclinic
 [spring-framework-petclinic]: https://github.com/spring-petclinic/spring-framework-petclinic
-[spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs 
+[spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs
 [javaconfig branch]: https://github.com/spring-petclinic/spring-framework-petclinic/tree/javaconfig
 [spring-petclinic-angular]: https://github.com/spring-petclinic/spring-petclinic-angular
 [spring-petclinic-microservices]: https://github.com/spring-petclinic/spring-petclinic-microservices

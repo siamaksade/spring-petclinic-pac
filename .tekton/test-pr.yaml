@@ -65,7 +65,7 @@ spec:
             workspace: source
         params:
           - name: args
-            value: ["."]
+            value: [".", "-t", "~blank_lines,~line_length,~html,~links"]
   workspaces:
   - name: source
     volumeClaimTemplate:
