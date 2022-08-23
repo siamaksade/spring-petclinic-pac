@@ -12,7 +12,9 @@ metadata:
     
     # Fetch the git-clone task from hub, we are able to reference later on it
     # with taskRef and it will automatically be embedded into our pipeline.
-    pipelinesascode.tekton.dev/task: "git-clone"
+    pipelinesascode.tekton.dev/task: "[git-clone:0.8]"
+    pipelinesascode.tekton.dev/task-1: "https://raw.githubusercontent.com/tektoncd/catalog/main/task/maven/0.2/maven.yaml"
+
     
     # You can add more tasks in here to reuse, browse the one you like from here
     # https://hub.tekton.dev/
@@ -50,24 +52,22 @@ spec:
             value: $(params.repo_url)
           - name: revision
             value: $(params.revision)
-  
-      # Customize this task if you like, or just do a taskRef
-      # to one of the hub task.
-      - name: noop-task
+      - name: build
         runAfter:
           - fetch-repository
         workspaces:
+          - name: maven-settings
+            workspace: source
           - name: source
             workspace: source
-        taskSpec:
-          workspaces:
-            - name: source
-          steps:
-            - name: noop-task
-              image: registry.access.redhat.com/ubi9/ubi-micro
-              workingDir: $(workspaces.source.path)
-              script: |
-                exit 0
+        taskRef:
+          name: maven
+        params:
+          - name: GOALS
+            value:
+              - clean
+              - package
+
   workspaces:
   - name: source
     volumeClaimTemplate:

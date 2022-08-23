@@ -12,7 +12,9 @@ metadata:
     
     # Fetch the git-clone task from hub, we are able to reference later on it
     # with taskRef and it will automatically be embedded into our pipeline.
-    pipelinesascode.tekton.dev/task: "git-clone"
+    pipelinesascode.tekton.dev/task: "[git-clone]"
+    pipelinesascode.tekton.dev/task-1: ".tekton/tasks/markdown-lint-task.yaml"
+    
     
     # You can add more tasks in here to reuse, browse the one you like from here
     # https://hub.tekton.dev/
@@ -53,21 +55,15 @@ spec:
   
       # Customize this task if you like, or just do a taskRef
       # to one of the hub task.
-      - name: noop-task
+      - name: link-markdown
         runAfter:
           - fetch-repository
         workspaces:
-          - name: source
+          - name: shared-workspace
             workspace: source
-        taskSpec:
-          workspaces:
-            - name: source
-          steps:
-            - name: noop-task
-              image: registry.access.redhat.com/ubi9/ubi-micro
-              workingDir: $(workspaces.source.path)
-              script: |
-                exit 0
+        params:
+          - name: args
+            value: ["."]
   workspaces:
   - name: source
     volumeClaimTemplate:
