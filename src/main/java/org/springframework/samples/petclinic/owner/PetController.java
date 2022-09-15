@@ -36,23 +36,26 @@ class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
-	private final PetRepository pets;
-
 	private final OwnerRepository owners;
 
-	public PetController(PetRepository pets, OwnerRepository owners) {
-		this.pets = pets;
+	public PetController(OwnerRepository owners) {
 		this.owners = owners;
 	}
 
 	@ModelAttribute("types")
 	public Collection<PetType> populatePetTypes() {
-		return this.pets.findPetTypes();
+		return this.owners.findPetTypes();
 	}
 
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
 		return this.owners.findById(ownerId);
+	}
+
+	@ModelAttribute("pet")
+	public Pet findPet(@PathVariable("ownerId") int ownerId,
+			@PathVariable(name = "petId", required = false) Integer petId) {
+		return petId == null ? new Pet() : this.owners.findById(ownerId).getPet(petId);
 	}
 
 	@InitBinder("owner")
@@ -84,14 +87,14 @@ class PetController {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			this.pets.save(pet);
+			this.owners.save(owner);
 			return "redirect:/owners/{ownerId}";
 		}
 	}
 
 	@GetMapping("/pets/{petId}/edit")
-	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
-		Pet pet = this.pets.findById(petId);
+	public String initUpdateForm(Owner owner, @PathVariable("petId") int petId, ModelMap model) {
+		Pet pet = owner.getPet(petId);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
@@ -99,13 +102,12 @@ class PetController {
 	@PostMapping("/pets/{petId}/edit")
 	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
 		if (result.hasErrors()) {
-			pet.setOwner(owner);
 			model.put("pet", pet);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			owner.addPet(pet);
-			this.pets.save(pet);
+			this.owners.save(owner);
 			return "redirect:/owners/{ownerId}";
 		}
 	}
