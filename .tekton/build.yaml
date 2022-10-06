@@ -14,7 +14,7 @@ metadata:
     # with taskRef and it will automatically be embedded into our pipeline.
     pipelinesascode.tekton.dev/task: "[git-clone:0.8]"
     pipelinesascode.tekton.dev/task-1: "https://raw.githubusercontent.com/tektoncd/catalog/main/task/maven/0.2/maven.yaml"
-    pipelinesascode.tekton.dev/task-2: "[./tekton/tasks/s2i.yaml, .tekton/tasks/git-update-deployment.yaml, .tekton/tasks/create-promote-pr.yaml]"
+    # pipelinesascode.tekton.dev/task-2: "[./tekton/tasks/s2i.yaml, .tekton/tasks/git-update-deployment.yaml, .tekton/tasks/create-promote-pr.yaml]"
 
     
     # You can add more tasks in here to reuse, browse the one you like from here
