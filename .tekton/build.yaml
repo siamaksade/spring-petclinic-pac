@@ -3,26 +3,14 @@ kind: PipelineRun
 metadata:
   name: spring-petclinic-build
   annotations:
-    # The event we are targeting as seen from the webhook payload
-    # this can be an array too, i.e: [pull_request, push]
     pipelinesascode.tekton.dev/on-event: "[pull_request, push]"
 
-    # The branch or tag we are targeting (ie: main, refs/tags/*)
     pipelinesascode.tekton.dev/on-target-branch: "cicd-demo"
     
-    # Fetch the git-clone task from hub, we are able to reference later on it
-    # with taskRef and it will automatically be embedded into our pipeline.
     pipelinesascode.tekton.dev/task: "[git-clone:0.8]"
     pipelinesascode.tekton.dev/task-1: "https://raw.githubusercontent.com/tektoncd/catalog/main/task/maven/0.2/maven.yaml"
     pipelinesascode.tekton.dev/task-2: "[.tekton/tasks/s2i.yaml, .tekton/tasks/git-update-deployment.yaml, .tekton/tasks/create-promote-pr.yaml]"
 
-    
-    # You can add more tasks in here to reuse, browse the one you like from here
-    # https://hub.tekton.dev/
-    # example:
-    # pipelinesascode.tekton.dev/task-2: "[maven, buildah]"
-
-    # How many runs we want to keep attached to this event
     pipelinesascode.tekton.dev/max-keep-runs: "5"
 spec:
   params:
