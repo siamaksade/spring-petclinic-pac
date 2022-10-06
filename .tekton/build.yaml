@@ -6,7 +6,7 @@ metadata:
     pipelinesascode.tekton.dev/on-event: "[pull_request, push]"
     pipelinesascode.tekton.dev/on-target-branch: "cicd-demo"
     pipelinesascode.tekton.dev/task: "[git-clone:0.8]"
-    pipelinesascode.tekton.dev/task-1: "[.tekton/tasks/s2i-java.yaml, .tekton/tasks/git-update-deployment.yaml, .tekton/tasks/create-promote-pr.yaml]"
+    pipelinesascode.tekton.dev/task-1: "[.tekton/tasks/s2i.yaml, .tekton/tasks/git-update-deployment.yaml, .tekton/tasks/create-promote-pr.yaml]"
     pipelinesascode.tekton.dev/task-2: "https://raw.githubusercontent.com/tektoncd/catalog/main/task/maven/0.2/maven.yaml"
     pipelinesascode.tekton.dev/max-keep-runs: "5"
 spec:
@@ -15,13 +15,10 @@ spec:
       value: "{{ repo_url }}"
     - name: revision
       value: "{{ revision }}"
-    - name: config_repo_url
-      value: http://gitea-a5-cicd.apps.siamak.devcluster.openshift.com/gitea/spring-petclinic-config
   pipelineSpec:
     params:
       - name: repo_url
       - name: revision
-      - name: config_repo_url
     workspaces:
       - name: source
       - name: basic-auth
@@ -142,7 +139,7 @@ spec:
           name: git-update-deployment
         params:
           - name: GIT_REPOSITORY
-            value: "$(params.config_repo_url)"
+            value: http://gitea-a5-cicd.apps.siamak.devcluster.openshift.com/gitea/spring-petclinic-config
           - name: GIT_USERNAME
             value: gitea
           - name: GIT_PASSWORD
@@ -165,7 +162,7 @@ spec:
           name: create-promote-pull-request
         params:
           - name: GIT_REPOSITORY
-            value: "$(params.config_repo_url)"
+            value: http://gitea-a5-cicd.apps.siamak.devcluster.openshift.com/gitea/spring-petclinic-config
           - name: GIT_USERNAME
             value: gitea
           - name: GIT_PASSWORD
