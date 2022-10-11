@@ -6,10 +6,8 @@ metadata:
     pipelinesascode.tekton.dev/on-event: "[pull_request, push]"
     pipelinesascode.tekton.dev/on-target-branch: "cicd-demo"
     pipelinesascode.tekton.dev/task: "[git-clone:0.8]"
-    pipelinesascode.tekton.dev/task-1: "[.tekton/tasks/s2i-java.yaml, .tekton/tasks/git-update-deployment.yaml, .tekton/tasks/create-promote-pr.yaml]"
-    pipelinesascode.tekton.dev/task-2: "https://raw.githubusercontent.com/tektoncd/catalog/main/task/maven/0.2/maven.yaml"
+    pipelinesascode.tekton.dev/task-1: "https://raw.githubusercontent.com/tektoncd/catalog/main/task/maven/0.2/maven.yaml"
     pipelinesascode.tekton.dev/max-keep-runs: "5"
-    
 spec:
   params:
     - name: repo_url
@@ -48,11 +46,19 @@ spec:
             value: "0"
           - name: subdirectory
             value: spring-petclinic
+      - name: mvn-config
+        taskRef: 
+          name: mvn-config
+        runAfter:
+          - source-clone
+        workspaces:
+        - name: workspace
+          workspace: source
       - name: unit-tests
         taskRef:
           name: maven
         runAfter:
-          - source-clone
+          - configure-maven
         workspaces:
         - name: source
           workspace: source
@@ -181,8 +187,6 @@ spec:
         resources:
           requests:
             storage: 1Gi
-  # This workspace will inject secret to help the git-clone task to be able to
-  # checkout the private repositories
   - name: basic-auth
     secret:
       secretName: "{{ git_auth_secret }}"
