@@ -58,9 +58,9 @@ spec:
             echo "MAVEN_MIRROR_URL=$(params.MAVEN_MIRROR_URL)" >> env-file
 
           echo "Generated Env file"
-          echo "------------------------------"
+          echo "##############################"
           cat env-file
-          echo "------------------------------"
+          echo "##############################"
       command:
         - /bin/sh
         - '-c'

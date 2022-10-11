@@ -58,6 +58,8 @@ spec:
         - name: maven-settings
           workspace: source
         params:
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus:8081/repository/maven-releases/
         - name: GOALS
           value: ["package", "-f", "spring-petclinic"]
       - name: code-analysis
@@ -71,6 +73,8 @@ spec:
         - name: maven-settings
           workspace: source
         params:
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus:8081/repository/maven-releases/
         - name: GOALS
           value:
           - install
@@ -91,6 +95,8 @@ spec:
         - name: maven-settings
           workspace: source
         params:
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus:8081/repository/maven-releases/
         - name: GOALS
           value: ["--version", "-f", "spring-petclinic"]
       - name: release-app
@@ -105,14 +111,20 @@ spec:
         - name: maven-settings
           workspace: source
         params:
+        - name: SERVER_USER
+          value: admin
+        - name: SERVER_PASSWORD
+          value: admin123
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus:8081/repository/maven-releases/
         - name: GOALS
           value:
           - deploy
           - -f 
           - spring-petclinic
           - -DskipTests=true
-          - -DaltDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-releases/
-          - -DaltSnapshotDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-snapshots/
+          - -DaltDeploymentRepository=serverid::default::http://nexus:8081/repository/maven-releases/
+          - -DaltSnapshotDeploymentRepository=serverid::default::http://nexus:8081/repository/maven-snapshots/
       - name: build-image
         taskRef:
           name: s2i-java-11
