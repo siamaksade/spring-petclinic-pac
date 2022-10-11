@@ -25,9 +25,6 @@ spec:
       - name: APP_IMAGE_DIGETST
         description: The image digest built in the pipeline
         value: $(tasks.build-image.results.IMAGE_DIGEST)
-      - name: APP_IMAGE_URL
-        description: The image url built in the pipeline
-        value: $(tasks.build-image.results.IMAGE_NAME)
     tasks:
       - name: source-clone
         taskRef:
@@ -120,9 +117,11 @@ spec:
           - -DskipTests=true
           - -DaltDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-releases/
           - -DaltSnapshotDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-snapshots/
+          - -Dversion=
       - name: build-image
         taskRef:
-          name: s2i-java-11
+          name: s2i-java
+          kind: ClusterTask
         runAfter:
         - release-app
         params:
@@ -132,10 +131,8 @@ spec:
             value: http://nexus:8081/repository/maven-public/
           - name: PATH_CONTEXT
             value: spring-petclinic/target
-          - name: IMAGE_NAME
-            value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/spring-petclinic
-          - name: IMAGE_TAG
-            value: latest
+          - name: IMAGE
+            value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/spring-petclinic:latest
         workspaces:
         - name: source
           workspace: source
@@ -178,6 +175,9 @@ spec:
             value: environments/dev
           - name: COPY_TO_PATH
             value: environments/stage
+        workspaces:
+        - name: workspace
+          workspace: source
   workspaces:
   - name: source
     volumeClaimTemplate:
