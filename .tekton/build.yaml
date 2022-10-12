@@ -117,7 +117,8 @@ spec:
           - -DskipTests=true
           - -DaltDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-releases/
           - -DaltSnapshotDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-snapshots/
-          - -Dversion=
+          - -Durl=http://nexus:8081/repository/maven-releases/
+          - -DrepositoryId=nexus
       - name: build-image
         taskRef:
           name: s2i-java
