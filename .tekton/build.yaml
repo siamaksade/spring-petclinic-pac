@@ -136,7 +136,7 @@ spec:
         workspaces:
         - name: source
           workspace: source
-      - name: update-deployment
+      - name: update-manifests
         runAfter:
         - build-image
         taskRef:
@@ -159,9 +159,9 @@ spec:
         workspaces:
         - name: workspace
           workspace: source
-      - name: create-promote-pr
+      - name: pr-promote
         runAfter:
-        - update-deployment
+        - update-manifests
         taskRef:
           name: create-promote-pull-request
         params:
