@@ -55,7 +55,7 @@ spec:
         taskRef:
           name: maven
         runAfter:
-          - configure-maven
+          - mvn-config
         workspaces:
         - name: source
           workspace: source
