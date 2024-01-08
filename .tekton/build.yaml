@@ -84,6 +84,7 @@ spec:
           - -Dsonar.host.url=http://sonarqube:9000
           - -Dsonar.userHome=/tmp/sonar
           - -DskipTests=true
+          - -Dsonar.qualitygate.wait=true
       - name: security-scan
         taskRef:
           name: maven
