@@ -28,6 +28,8 @@ spec:
   workspaces:
     - description: The workspace consisting of maven project.
       name: workspace
+    - description: The CA Bundle workspace
+      name: ca-bundle
 
   results:
     - name: commit
@@ -38,6 +40,7 @@ spec:
       image: docker.io/alpine/git:v2.26.2
       workingDir: $(workspaces.workspace.path)
       script: |
+        cp $(workspaces.ca-bundle.path)/tls-ca-bundle.pem /etc/ssl/certs/ca-certificates.crt
         rm -rf git-update-digest-workdir
         git clone $(params.GIT_REPOSITORY) git-update-digest-workdir
 
@@ -57,6 +60,7 @@ spec:
       image: docker.io/alpine/git:v2.26.2
       workingDir: $(workspaces.workspace.path)
       script: |
+        cp $(workspaces.ca-bundle.path)/tls-ca-bundle.pem /etc/ssl/certs/ca-certificates.crt
         cd git-update-digest-workdir
         git config user.email "tekton-pipelines-ci@redhat.com"
         git config user.name "tekton-pipelines-ci"
