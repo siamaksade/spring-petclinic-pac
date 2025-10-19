@@ -53,7 +53,7 @@ spec:
           - name: ca-bundle
             workspace: ca-bundle
           - name: truststore
-            workspace: truststore
+            workspace: source
       - name: source-clone
         runAfter:
         - generate-truststore
@@ -109,11 +109,9 @@ spec:
           workspace: source
         - name: maven_settings
           workspace: source
-        - name: truststore
-          workspace: truststore
         params:
         - name: GOALS
-          value: ["package", "-f", "spring-petclinic", "-Djavax.net.ssl.trustStore=$(workspaces.truststore.path)/jssecacerts", "-Djavax.net.ssl.trustStorePassword=changeit"]
+          value: ["package", "-f", "spring-petclinic", "-Djavax.net.ssl.trustStore=$(workspaces.source.path)/jssecacerts", "-Djavax.net.ssl.trustStorePassword=changeit"]
       - name: code-analysis
         taskRef:
           resolver: cluster
@@ -131,8 +129,6 @@ spec:
           workspace: source
         - name: maven_settings
           workspace: source
-        - name: truststore
-          workspace: truststore
         params:
         - name: GOALS
           value:
@@ -146,7 +142,7 @@ spec:
           - -Dsonar.qualitygate.wait=true
           - -Dsonar.login=admin
           - -Dsonar.password=sonarqube
-          - -Djavax.net.ssl.trustStore=$(workspaces.truststore.path)/jssecacerts
+          - -Djavax.net.ssl.trustStore=$(workspaces.source.path)/jssecacerts
           - -Djavax.net.ssl.trustStorePassword=changeit
       - name: security-scan
         taskRef:
@@ -165,11 +161,9 @@ spec:
           workspace: source
         - name: maven_settings
           workspace: source
-        - name: truststore
-          workspace: truststore
         params:
         - name: GOALS
-          value: ["--version", "-f", "spring-petclinic", "-Djavax.net.ssl.trustStore=$(workspaces.truststore.path)/jssecacerts", "-Djavax.net.ssl.trustStorePassword=changeit"]
+          value: ["--version", "-f", "spring-petclinic", "-Djavax.net.ssl.trustStore=$(workspaces.source.path)/jssecacerts", "-Djavax.net.ssl.trustStorePassword=changeit"]
       - name: release-app
         taskRef:
           resolver: cluster
@@ -188,8 +182,6 @@ spec:
           workspace: source
         - name: maven_settings
           workspace: source
-        - name: truststore
-          workspace: truststore
         params:
         - name: GOALS
           value:
@@ -201,7 +193,7 @@ spec:
           - -DaltSnapshotDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-snapshots/
           - -Durl=http://nexus:8081/repository/maven-releases/
           - -DrepositoryId=nexus
-          - -Djavax.net.ssl.trustStore=$(workspaces.truststore.path)/jssecacerts
+          - -Djavax.net.ssl.trustStore=$(workspaces.source.path)/jssecacerts
           - -Djavax.net.ssl.trustStorePassword=changeit
       - name: build-image
         taskRef:
@@ -277,14 +269,6 @@ spec:
           workspace: ca-bundle
   workspaces:
   - name: source
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
-  - name: truststore
     volumeClaimTemplate:
       spec:
         accessModes:
