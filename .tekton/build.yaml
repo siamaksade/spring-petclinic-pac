@@ -48,6 +48,8 @@ spec:
             value: "0"
           - name: SUBDIRECTORY
             value: spring-petclinic
+          - name: SSL_VERIFY
+            value: "false"
       - name: mvn-config
         taskRef: 
           name: mvn-config
